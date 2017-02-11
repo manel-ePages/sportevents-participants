@@ -1,6 +1,3 @@
-INSERT INTO participant (id, nif, nom, cognom1, cognom2) VALUES (
-    1, '52140954T', 'Manel', 'Merino', 'Miguel'
-);
-INSERT INTO participant (id, nif, nom, cognom1, cognom2) VALUES (
-    2, '00000000T', 'Lukas', 'Rathman', 'Klein'
-);
+INSERT INTO `participant` (`id`, `data_registre`, `data_ultima_modificacio`, `nif`, `data_naixement`, `nom`, `cognom1`, `cognom2`, `genere`, `adreça`, `codi_postal`, `poblacio`, `pais`, `telefon`, `telefon_urgencia`, `email`, `actiu`) VALUES
+(1, '2015-02-03 15:59:15', '2016-01-23 12:39:26', '52140954T', '1965-06-23', 'Manel', 'Merino', 'Miguel', 'Home', 'Arc de Sant Martí 37', '08430', 'La Roca del Vallès', '', '697824515', NULL, 'manel.merino@gmail.com', 1),
+(2, '2016-10-21 17:20:33', '2016-10-21 17:20:33', '00000000T', '1968-02-15', 'Alberto', 'Jaramillo', 'De La Fuente', 'Home', 'Poniente 7 1º 3ª', '08901', 'Hospitalet de Llobregat', '', '649609325', NULL, 'manel.biker@gmail.com', 1);

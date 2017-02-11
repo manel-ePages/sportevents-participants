@@ -1,103 +1,24 @@
 package sportevents.participants;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-//enum Genere {
-//    Home, Dona
-//}
-
-@Entity
-public class Participant {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private Timestamp dataRegistre;
-
-    private Timestamp dataUltimaModificacio;
-
+public class ParticipantRequest {
     private String nif;
-
-    private Date dataNaixement;
-
+    private String dataNaixement;
     private String nom;
-
     private String cognom1;
-
     private String cognom2;
-
     private String genere;
-
     private String adreça;
-
     private String codiPostal;
-
     private String poblacio;
-
     private String pais;
-
     private String telefon;
-
     private String telefonUrgencia;
-
     private String email;
-
-    private boolean actiu;
-
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return the dataRegistre
-     */
-    public Timestamp getDataRegistre() {
-        return dataRegistre;
-    }
-
-    /**
-     * @param dataRegistre
-     *            the dataRegistre to set
-     */
-    public void setDataRegistre(Timestamp dataRegistre) {
-        this.dataRegistre = dataRegistre;
-    }
-
-    /**
-     * @return the dataUltimaModificacio
-     */
-    public Timestamp getDataUltimaModificacio() {
-        return dataUltimaModificacio;
-    }
-
-    /**
-     * @param dataUltimaModificacio
-     *            the dataUltimaModificacio to set
-     */
-    public void setDataUltimaModificacio(Timestamp dataUltimaModificacio) {
-        this.dataUltimaModificacio = dataUltimaModificacio;
-    }
 
     /**
      * @return the nif
@@ -117,7 +38,7 @@ public class Participant {
     /**
      * @return the dataNaixement
      */
-    public Date getDataNaixement() {
+    public String getDataNaixement() {
         return dataNaixement;
     }
 
@@ -125,7 +46,7 @@ public class Participant {
      * @param dataNaixement
      *            the dataNaixement to set
      */
-    public void setDataNaixement(Date dataNaixement) {
+    public void setDataNaixement(String dataNaixement) {
         this.dataNaixement = dataNaixement;
     }
 
@@ -294,19 +215,30 @@ public class Participant {
         this.email = email;
     }
 
-    /**
-     * @return the actiu
-     */
-    public boolean isActiu() {
-        return actiu;
+    public boolean isValid() {
+        return !(nif.isEmpty() || dataNaixement.isEmpty() || nom.isEmpty() || cognom1.isEmpty() || cognom2.isEmpty()
+                || genere.isEmpty() || adreça.isEmpty() || codiPostal.isEmpty() || poblacio.isEmpty()
+                || telefon.isEmpty() || email.isEmpty());
     }
 
-    /**
-     * @param actiu
-     *            the actiu to set
-     */
-    public void setActiu(boolean actiu) {
-        this.actiu = actiu;
+    public Participant generateParticipant() {
+        Participant participant = new Participant();
+
+        participant.setNif(this.getNif());
+        participant.setDataNaixement(Date.valueOf(this.getDataNaixement()));
+        participant.setNom(this.getNom());
+        participant.setCognom1(this.getCognom1());
+        participant.setCognom2(this.getCognom2());
+        participant.setGenere(this.getGenere());
+        participant.setAdreça(this.getAdreça());
+        participant.setCodiPostal(this.getCodiPostal());
+        participant.setPoblacio(this.getPoblacio());
+        participant.setPais(this.getPais());
+        participant.setTelefon(this.getTelefon());
+        participant.setTelefonUrgencia(this.getTelefonUrgencia());
+        participant.setEmail(this.getEmail());
+
+        return participant;
     }
 
     @Override
@@ -321,17 +253,4 @@ public class Participant {
         }
     }
 
-    public void fillForInsertion() {
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-        this.setDataRegistre(currentTimestamp);
-        this.setDataUltimaModificacio(currentTimestamp);
-        this.setActiu(true);
-    }
-    
-    public void fillForUpdate(Participant participant) {
-        this.setDataRegistre(participant.getDataRegistre());
-        this.setDataUltimaModificacio(new Timestamp(System.currentTimeMillis()));
-        this.setActiu(participant.isActiu());
-        this.setId(participant.getId());
-    }
 }
