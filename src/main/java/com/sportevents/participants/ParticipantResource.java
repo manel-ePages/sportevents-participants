@@ -1,4 +1,4 @@
-package sportevents.participants;
+package com.sportevents.participants;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;

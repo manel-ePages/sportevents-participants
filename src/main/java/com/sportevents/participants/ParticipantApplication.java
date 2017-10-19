@@ -1,4 +1,4 @@
-package sportevents.participants;
+package com.sportevents.participants;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

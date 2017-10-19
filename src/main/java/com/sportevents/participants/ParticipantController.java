@@ -1,4 +1,4 @@
-package sportevents.participants;
+package com.sportevents.participants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,8 +93,8 @@ public class ParticipantController {
     public ResponseEntity<Void> deleteParticipant(@PathVariable("id") Long id) {
         if (participantRepository.exists(id)) {
             Participant inactiveParticipant = participantRepository.getOne(id);
-            if (inactiveParticipant.isActiu()) {
-                inactiveParticipant.setActiu(false);
+            if (inactiveParticipant.isOperational()) {
+                inactiveParticipant.setOperational(false);
             }
 
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

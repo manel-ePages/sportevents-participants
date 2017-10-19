@@ -1,4 +1,4 @@
-package sportevents.participants;
+package com.sportevents.participants;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -26,8 +26,8 @@ public class ParticipantResourceAssembler
     private ParticipantResource toBaseResource(Participant participant) {
         // final ParticipantResource resource =
         // createResourceWithId(getId(participant) , participant);
-//        final ParticipantResource resource = new ParticipantResource(participant.getId(), participant.getNif(),
-//                participant.getNom());
+//        final ParticipantResource resource = new ParticipantResource(participant.getId(), participant.getIdCard(),
+//                participant.getName());
         final ParticipantResource resource = ParticipantResource.resourceFactory(participant);
 
         return resource;

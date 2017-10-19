@@ -1,4 +1,4 @@
-package sportevents.participants;
+package com.sportevents.participants;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
