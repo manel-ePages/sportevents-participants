@@ -11,39 +11,39 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ParticipantResourceAssembler
-        extends EmbeddableResourceAssemblerSupport<Participant, ParticipantResource, ParticipantController> {
+        extends EmbeddableResourceAssemblerSupport<Person, ParticipantResource, ParticipantsController> {
 
     @Autowired
     public ParticipantResourceAssembler(final EntityLinks entityLinks, final RelProvider relProvider) {
-        super(entityLinks, relProvider, ParticipantController.class, ParticipantResource.class);
+        super(entityLinks, relProvider, ParticipantsController.class, ParticipantResource.class);
     }
 
     @Override
-    public Link linkToSingleResource(Participant participant) {
+    public Link linkToSingleResource(Person participant) {
         return entityLinks.linkToSingleResource(ParticipantResource.class, participant.getId());
     }
 
-    private ParticipantResource toBaseResource(Participant participant) {
+    private ParticipantResource toBaseResource(Person participant) {
         // final ParticipantResource resource =
         // createResourceWithId(getId(participant) , participant);
 //        final ParticipantResource resource = new ParticipantResource(participant.getId(), participant.getIdCard(),
 //                participant.getName());
-        final ParticipantResource resource = ParticipantResource.resourceFactory(participant);
+//        final ParticipantResource resource = new ParticipantResource(participant);
 
-        return resource;
+        return new ParticipantResource(participant);
     }
 
     @Override
-    public ParticipantResource toResource(Participant participant) {
+    public ParticipantResource toResource(Person participant) {
         final ParticipantResource resource = this.toBaseResource(participant);
         // Add links to available actions
         addActionLinks(resource, participant);
 
-        resource.add(linkTo(methodOn(ParticipantController.class).readParticipant(participant.getId())).withSelfRel());
+        resource.add(linkTo(methodOn(ParticipantsController.class).readParticipant(participant.getId())).withSelfRel());
 
         return resource;
     }
 
-    private void addActionLinks(final ParticipantResource resource, final Participant participant) {
+    private void addActionLinks(final ParticipantResource resource, final Person participant) {
     }
 }

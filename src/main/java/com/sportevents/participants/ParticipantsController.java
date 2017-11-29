@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/participant")
-public class ParticipantController {
-    private static Logger LOG = LoggerFactory.getLogger(ParticipantController.class);
-    private final ParticipantRepository participantRepository;
+@RequestMapping("/participants")
+public class ParticipantsController {
+    private static Logger LOG = LoggerFactory.getLogger(ParticipantsController.class);
+    private final ParticipantsRepository participantsRepository;
     private final ParticipantResourceAssembler participantResourceAssembler;
 
     @Autowired
-    public ParticipantController(ParticipantRepository participantRepository,
+    public ParticipantsController(ParticipantsRepository participantsRepository,
             ParticipantResourceAssembler participantResourceAssembler) {
-        this.participantRepository = participantRepository;
+        this.participantsRepository = participantsRepository;
         this.participantResourceAssembler = participantResourceAssembler;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Resources<ParticipantResource>> readParticipants() {
-        final Iterable<Participant> participants = participantRepository.findAll();
+        final Iterable<Person> participants = participantsRepository.findAll();
         final Resources<ParticipantResource> wrapped = participantResourceAssembler.toEmbeddedList(participants);
 
         return ResponseEntity.ok(wrapped);
@@ -37,8 +37,8 @@ public class ParticipantController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<ParticipantResource> readParticipant(@PathVariable("id") Long id) {
-        if (participantRepository.exists(id)) {
-            final Participant participant = participantRepository.getOne(id);
+        if (participantsRepository.exists(id)) {
+            final Person participant = participantsRepository.getOne(id);
 
             final ParticipantResource participantResource = participantResourceAssembler.toResource(participant);
 
@@ -49,18 +49,18 @@ public class ParticipantController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ParticipantResource> createParticipant(@RequestBody ParticipantRequest participantRequest) {
+    public ResponseEntity<ParticipantResource> createParticipant(@RequestBody ParticipantsRequest participantsRequest) {
 
-        if (participantRequest.isValid()) {
-            Participant insertParticipant = participantRequest.generateParticipant();
+        if (participantsRequest.isValid()) {
+            Person insertParticipant = participantsRequest.generatePerson();
             insertParticipant.fillForInsertion();
-            Participant newParticipant = participantRepository.save(insertParticipant);
+            Person newParticipant = participantsRepository.save(insertParticipant);
             
             final ParticipantResource newParticipantResource = participantResourceAssembler.toResource(newParticipant);
 
             return ResponseEntity.ok(newParticipantResource);
         } else {
-            LOG.info(String.format("Invalid Request: \n%s", participantRequest.toString()));
+            LOG.info(String.format("Invalid Request: \n%s", participantsRequest.toString()));
 
             return new ResponseEntity<ParticipantResource>(HttpStatus.BAD_REQUEST);
         }
@@ -68,13 +68,13 @@ public class ParticipantController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<ParticipantResource> updateParticipant(@PathVariable("id") Long id,
-            @RequestBody ParticipantRequest participantRequest) {
-        if (participantRequest.isValid()) {
-            if (participantRepository.exists(id)) {
-                final Participant currentParticipant = participantRepository.findOne(id);
-                Participant updateParticipant = participantRequest.generateParticipant();
+            @RequestBody ParticipantsRequest participantsRequest) {
+        if (participantsRequest.isValid()) {
+            if (participantsRepository.exists(id)) {
+                final Person currentParticipant = participantsRepository.findOne(id);
+                Person updateParticipant = participantsRequest.generatePerson();
                 updateParticipant.fillForUpdate(currentParticipant);
-                participantRepository.save(updateParticipant);
+                participantsRepository.save(updateParticipant);
 
                 final ParticipantResource updateParticipantResource = participantResourceAssembler
                         .toResource(updateParticipant);
@@ -91,8 +91,8 @@ public class ParticipantController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteParticipant(@PathVariable("id") Long id) {
-        if (participantRepository.exists(id)) {
-            Participant inactiveParticipant = participantRepository.getOne(id);
+        if (participantsRepository.exists(id)) {
+            Person inactiveParticipant = participantsRepository.getOne(id);
             if (inactiveParticipant.isOperational()) {
                 inactiveParticipant.setOperational(false);
             }
@@ -101,5 +101,11 @@ public class ParticipantController {
         } else {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(path = "/callback", method = RequestMethod.POST)
+    public ResponseEntity<Void> processCallback() {
+        System.out.println("INSIDE CALLBACK: ");
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }

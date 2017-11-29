@@ -1,10 +1,11 @@
 package com.sportevents.participants;
 
-import java.sql.Date;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ParticipantRequest {
+import java.sql.Date;
+
+public class ParticipantsRequest {
     private String idCard;
     private String birthDate;
     private String name;
@@ -93,6 +94,14 @@ public class ParticipantRequest {
         this.city = city;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -126,13 +135,18 @@ public class ParticipantRequest {
     }
 
     public boolean isValid() {
-        return !(idCard.isEmpty() || birthDate.isEmpty() || name.isEmpty() || firstSurname.isEmpty() || secondSurname.isEmpty()
-                || gender.isEmpty() || street.isEmpty() || zipCode.isEmpty() || city.isEmpty()
-                || phoneNumber.isEmpty() || email.isEmpty());
+        if ( (idCard == null) || (birthDate == null) || (name == null) || (firstSurname == null)
+                || (secondSurname == null) || (gender == null) || (street == null) || (zipCode == null)
+                || (city == null) || (phoneNumber == null) || (email == null) ) {
+            return false;
+        }
+        return !(idCard.isEmpty() || birthDate.isEmpty() || name.isEmpty() || firstSurname.isEmpty()
+                || secondSurname.isEmpty() || gender.isEmpty() || street.isEmpty() || zipCode.isEmpty()
+                || city.isEmpty() || phoneNumber.isEmpty() || email.isEmpty());
     }
 
-    public Participant generateParticipant() {
-        Participant participant = new Participant();
+    public Person generatePerson() {
+        Person participant = new Person();
 
         participant.setIdCard(this.getIdCard());
         participant.setBirthDate(Date.valueOf(this.getBirthDate()));

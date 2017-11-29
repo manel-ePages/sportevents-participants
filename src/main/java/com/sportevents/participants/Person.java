@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 //}
 
 @Entity
-public class Participant {
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -219,7 +219,7 @@ public class Participant {
         this.setOperational(true);
     }
     
-    public void fillForUpdate(Participant participant) {
+    public void fillForUpdate(Person participant) {
         this.setRegistrationDate(participant.getRegistrationDate());
         this.setModificationDate(new Timestamp(System.currentTimeMillis()));
         this.setOperational(participant.isOperational());
