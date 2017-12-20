@@ -212,17 +212,20 @@ public class Person {
         }
     }
 
+    public void fillForInsertion(Timestamp registrationDate, Timestamp modificationDate, boolean operational) {
+        this.setRegistrationDate(registrationDate);
+        this.setModificationDate(modificationDate);
+        this.setOperational(operational);
+    }
+
     public void fillForInsertion() {
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-        this.setRegistrationDate(currentTimestamp);
-        this.setModificationDate(currentTimestamp);
-        this.setOperational(true);
+        this.fillForInsertion(currentTimestamp, currentTimestamp, true);
     }
     
     public void fillForUpdate(Person participant) {
         this.setRegistrationDate(participant.getRegistrationDate());
         this.setModificationDate(new Timestamp(System.currentTimeMillis()));
-        this.setOperational(participant.isOperational());
         this.setId(participant.getId());
     }
 }

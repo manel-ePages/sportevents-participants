@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -32,5 +32,6 @@ dependencies {
 	compile('org.flywaydb:flyway-core')
 	compile("org.springframework.boot:spring-boot-starter-hateoas")
 	runtime('mysql:mysql-connector-java')
+	testCompile('io.rest-assured:rest-assured:3.0.0')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

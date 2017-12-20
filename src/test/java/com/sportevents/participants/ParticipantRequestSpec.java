@@ -3,6 +3,7 @@ package com.sportevents.participants;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ParticipantRequestSpec {
@@ -18,7 +19,7 @@ public class ParticipantRequestSpec {
         participantsRequest.setName("Juan");
         participantsRequest.setFirstSurname("García");
         participantsRequest.setSecondSurname("Pérez");
-        participantsRequest.setGender("Male");
+        participantsRequest.setGender("masculine");
         participantsRequest.setStreet("Camelias, 4");
         participantsRequest.setZipCode("17310");
         participantsRequest.setCity("Lloret de Mar");
@@ -28,7 +29,13 @@ public class ParticipantRequestSpec {
     }
 
     @Test
-    public void whenParticipantRequestInitializedThenIsValid() {
+    public void whenParticipantRequestFullyInitializedThenIsValid() {
         assertTrue(participantsRequest.isValid());
+    }
+
+    @Test
+    public void whenParticipantRequestHasNoOperationalAttributeThenPersonIsNotOperational() {
+        Person person = participantsRequest.generatePerson();
+        assertFalse(person.isOperational());
     }
 }
